@@ -42,10 +42,12 @@ app.post('/facebook', function (req, res) {
   */
     const separator = process.env.SEPARATOR || '|';
     const arrEntry = req.body.entry || req.body[0].entry;
-    for (let i = 0; i < arrEntry.length; ++i) {
+    //for (let i = 0; i < arrEntry.length; ++i) {
+    const i = 0;
         const entry_time = arrEntry[i].time;
         const arrChanges = arrEntry[i].changes
-        for (let c = 0; c < arrChanges.length; ++c) {
+        //for (let c = 0; c < arrChanges.length; ++c) {
+            const c = 0;
             if (arrChanges[c].field === 'comments') {
                 const myValue = arrChanges[c].value;
                 const post_id = myValue.post_id;
@@ -75,8 +77,8 @@ app.post('/facebook', function (req, res) {
                 });
                 res.send(contentLine);
             };
-        };
-    };
+        //};
+    //};
 
     // Process the Facebook updates here
     received_updates.unshift(req.body);
