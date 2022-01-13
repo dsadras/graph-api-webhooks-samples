@@ -84,6 +84,6 @@ app.post('/facebook', function (req, res) {
     // Process the Facebook updates here
     received_updates.unshift(req.body);
     console.log('Acumulado:', JSON.stringify(received_updates, null, 2) );
-    res.send('ok')
+    res.send('ok');
 });
 app.listen();
