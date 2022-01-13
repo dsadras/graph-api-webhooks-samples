@@ -40,6 +40,7 @@ app.post('/facebook', function (req, res) {
     return;
   }
   */
+    /*
     const separator = process.env.SEPARATOR || '|';
     const arrEntry = req.body.entry || req.body[0].entry;
     //for (let i = 0; i < arrEntry.length; ++i) {
@@ -79,8 +80,10 @@ app.post('/facebook', function (req, res) {
             };
         //};
     //};
-
+    */
     // Process the Facebook updates here
     received_updates.unshift(req.body);
+    console.log('Acumulado:', JSON.stringify(received_updates, null, 2) );
+    res.send('ok')
 });
 app.listen();
