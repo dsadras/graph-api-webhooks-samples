@@ -68,13 +68,13 @@ app.post('/facebook', function (req, res) {
                 const contentLine = post_id.concat(separator, entry_time, separator, comment_id,
                     separator, comment_message, separator, user_id, separator, user_name, separator,
                     peso, '\n');
-                fs.appendFile('./diego.log', contentLine, err => {
-                    if (err) {
-                        console.error(err)
-                        return
-                    }
-                    //done!
-                });
+                //fs.appendFile('./diego.log', contentLine, err => {
+                //    if (err) {
+                //        console.error(err)
+                //        return
+                //    }
+                //    //done!
+                //});
                 res.send(contentLine);
             };
         //};
