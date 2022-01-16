@@ -59,22 +59,22 @@ app.post('/facebook', function(req, res) {
         //var post_id='pp'
         //var comment_id='cc'
         var myReactions = JSON.parse(x).data;
-        for (let r = myReactions.length - 1; r >= 0; --r) {
-            const user_id = myReactions[r].id;
-            const user_name = myReactions[r].name;
-            const user_reaction = myReactions[r].type;
+        myReactions.forEach(myElement => {
+            const user_id = myElement.id;
+            const user_name = myElement.name;
+            const user_reaction = myElement.type;
             const peso = (peso_reaction[user_reaction]) ? peso_reaction[user_reaction] : peso_reaction_default;
             const contentLine = post_id.concat(separator, comment_id,
                 separator, user_id, separator, user_name, separator,
                 user_reaction, separator, peso);// '\n');
             received_reactions.unshift(contentLine);
-        };
+        });
     };
                 //COMMENTS
     var ProcessComments = function (x, post_id) {
         var myComments = JSON.parse(x).data;
-        for (let c = myComments.length - 1; c >= 0; --c) {
-            const comment_id = myComments[c].id;
+        myComments.forEach(myElement => {
+            const comment_id = myElement.id;
             //busco comentarios del comment
             facebookAccess.getInfo('/' + comment_id + '/comments', access_token, ProcessComments, post_id);
             //busco reacciones del comment
@@ -84,16 +84,14 @@ app.post('/facebook', function(req, res) {
                 post_id,
                 comment_id
             );
-
-        };
-
+        });
     };
 
                 //FEED
     var ProcessFeed = function (x) {
         var myFeed = JSON.parse(x).data;
-        for (let p = myFeed.length - 1; p >= 0; --p) {
-            const post_id = myFeed[p].id;
+        myFeed.forEach(myElement => {
+            const post_id = myElement.id;
             //busco comentarios del post
             facebookAccess.getInfo('/' + post_id + '/comments', access_token, ProcessComments, post_id);
             //busco reacciones del post
@@ -101,7 +99,7 @@ app.post('/facebook', function(req, res) {
                 ProcessReactions,
                 post_id,
                 'nocomment');
-        };
+        });
 
     };
     if (received_reactions.length > 0) {
