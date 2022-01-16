@@ -1,8 +1,12 @@
 'option strict'
 
-const access_token = 'DQVJ1RUJWNE5KMHFVZA3I0a0JTdUJWdnA3M2dGUUpnd1pLUjBvNnpRRXFsYTU0ZA3RRYU5lRmI5VWNJVWJmSGJIMVkxRHQtUTVlZA0UzNEt4bk45bGlOelM2VEgzcU9lNThMN3AzbHZALVHQ1YjNIQ0trdTUxZATBRMHRoMUc0WkVKY0xWWGx5YkhzT05MaklhMUViWEhScVdPdHQ4VlpQMDNpanozdEhoWjJ5Y2owMkdKVEQzQkdfdl9RMWx0cVpoNWlhWndhYUVn'
+const access_token = 'DQVJzcjV0UC03cHRvZAkNDWlhlbVg4UGNxZAHpJVkZA0bjJldzdtakFxQ3B2SVVWWmdKX2o3UExBRFZA4al9aMWhHd2dMT01TeXIzMTlpcEZARbElwZAW9RVkhwdUNEbUIzZAWtvVWZAPSjRnUXZAKYXR2LTgyMXEwQWdHMllvS1ZAKT0hvS2JvNDBGcVYwRElKRklPMkVLTjlCbXhWYUtzSlZABdEFCTEM3aDBTNGQ0RU5HZAndpTW1XM0lJWE1UVFdaUG5xX3h1bGxwal93'
 const group_id = '412614683895934'
 var facebookAccess = require('./facebookAccess');
+const peso_reaction_default = 0.5;
+var peso_reaction = [];
+peso_reaction['LIKE'] = .75;
+peso_reaction['HAHA'] = .25;
 
 var comment_id = '';
 
@@ -107,7 +111,7 @@ app.post('/facebook', function(req, res) {
 
 
     // Process the Facebook updates here
-    received_updates.unshift(req.body);
+    received_logfull.unshift(req.body);
     res.sendStatus(200);
 });
 

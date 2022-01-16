@@ -7,10 +7,12 @@
     "start": "node heroku/index.js"
   },
   "dependencies": {
-    "body-parser": "~1.15.0",
-    "express": "~4.13.3",
+    "body-parser": "^1.19.1",
+    "debug": "^4.3.3",
+    "express": "^4.17.2",
     "express-x-hub": "^1.0.4",
-    "follow-redirects": "^1.14.7"
+    "follow-redirects": "^1.14.7",
+    "qs": "^6.10.3"
   },
   "engines": {
     "node": "0.12.7"
