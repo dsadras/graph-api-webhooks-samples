@@ -23,9 +23,13 @@ app.use(bodyParser.json());
 
 var token = process.env.TOKEN || 'token';
 var received_logfull = [];
+var received_reactions = [];
 
-app.get('/log_full', function(req, res) {
-  res.send('<pre>' + JSON.stringify(received_logfull, null, 2) + '</pre>');
+app.get('/log_full', function (req, res) {
+    res.send('<pre>' + JSON.stringify(received_logfull, null, 2) + '</pre>');
+});
+app.get('/reactions', function (req, res) {
+    res.send('<pre>' + JSON.stringify(received_reactions, null, 2) + '</pre>');
 });
 
 app.get(['/facebook', '/instagram'], function(req, res) {
@@ -51,56 +55,58 @@ app.post('/facebook', function(req, res) {
     const arrEntry = req.body.entry || req.body[0].entry;
     
                 //REACTIONS
-                var ProcessReactions = function (x, post_id, comment_id) {
-                    //var post_id='pp'
-                    //var comment_id='cc'
-                    var myReactions = JSON.parse(x).data
-                    for (let r = myReactions.length - 1; r >= 0; --r) {
-                        const user_id = myReactions[r].id;
-                        const user_name = myReactions[r].name;
-                        const user_reaction = myReactions[r].type;
-                        const peso = (peso_reaction[user_reaction]) ? peso_reaction[user_reaction] : peso_reaction_default;
-                        const contentLine = post_id.concat(separator, comment_id,
-                            separator, user_id, separator, user_name, separator,
-                            user_reaction, separator, peso);// '\n');
-                        console.log(contentLine);
-                    };
-
-                };
+    var ProcessReactions = function (x, post_id, comment_id) {
+        //var post_id='pp'
+        //var comment_id='cc'
+        var myReactions = JSON.parse(x).data
+        for (let r = myReactions.length - 1; r >= 0; --r) {
+            const user_id = myReactions[r].id;
+            const user_name = myReactions[r].name;
+            const user_reaction = myReactions[r].type;
+            const peso = (peso_reaction[user_reaction]) ? peso_reaction[user_reaction] : peso_reaction_default;
+            const contentLine = post_id.concat(separator, comment_id,
+                separator, user_id, separator, user_name, separator,
+                user_reaction, separator, peso);// '\n');
+            received_reactions.unshift(contentLine);
+        };
+    };
                 //COMMENTS
-                var ProcessComments = function (x, post_id) {
-                    var myComments = JSON.parse(x).data
-                    for (let c = myComments.length - 1; c >= 0; --c) {
-                        const comment_id = myComments[c].id;
-                        //busco comentarios del comment
-                        facebookAccess.getInfo('/' + comment_id + '/comments', access_token, ProcessComments, post_id);
-                        //busco reacciones del comment
-                        facebookAccess.getInfo('/' + comment_id + '/reactions?summary=true',
-                            access_token,
-                            ProcessReactions,
-                            post_id,
-                            comment_id
-                        );
+    var ProcessComments = function (x, post_id) {
+        var myComments = JSON.parse(x).data
+        for (let c = myComments.length - 1; c >= 0; --c) {
+            const comment_id = myComments[c].id;
+            //busco comentarios del comment
+            facebookAccess.getInfo('/' + comment_id + '/comments', access_token, ProcessComments, post_id);
+            //busco reacciones del comment
+            facebookAccess.getInfo('/' + comment_id + '/reactions?summary=true',
+                access_token,
+                ProcessReactions,
+                post_id,
+                comment_id
+            );
 
-                    };
+        };
 
-                };
+    };
 
                 //FEED
-                var ProcessFeed = function (x) {
-                    var myFeed = JSON.parse(x).data
-                    for (let p = myFeed.length - 1; p >= 0; --p) {
-                        const post_id = myFeed[p].id;
-                        //busco comentarios del post
-                        facebookAccess.getInfo('/' + post_id + '/comments', access_token, ProcessComments, post_id);
-                        //busco reacciones del post
-                        facebookAccess.getInfo('/' + post_id + '/reactions?summary=true', access_token,
-                            ProcessReactions,
-                            post_id,
-                            'nocomment');
-                    };
+    var ProcessFeed = function (x) {
+        var myFeed = JSON.parse(x).data
+        for (let p = myFeed.length - 1; p >= 0; --p) {
+            const post_id = myFeed[p].id;
+            //busco comentarios del post
+            facebookAccess.getInfo('/' + post_id + '/comments', access_token, ProcessComments, post_id);
+            //busco reacciones del post
+            facebookAccess.getInfo('/' + post_id + '/reactions?summary=true', access_token,
+                ProcessReactions,
+                post_id,
+                'nocomment');
+        };
 
-                };
+    };
+    if (received_reactions.length > 0) {
+        received_reactions.splice(0,received_reactions.length)
+    }
                 facebookAccess.getInfo('/' + group_id + '/feed', access_token, ProcessFeed);
 
                 ////REACTIONS
