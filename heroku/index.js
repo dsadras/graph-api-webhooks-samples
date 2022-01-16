@@ -70,7 +70,7 @@ app.post('/facebook', function (req, res) {
                     peso, '\n');
                 fs.appendFile('./diego.log', contentLine, err => {
                     if (err) {
-                        console.error(err)
+                        console.error(err);
                         return
                     }
                 //  done!
