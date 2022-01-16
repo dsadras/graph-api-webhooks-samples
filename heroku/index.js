@@ -58,7 +58,7 @@ app.post('/facebook', function(req, res) {
     var ProcessReactions = function (x, post_id, comment_id) {
         //var post_id='pp'
         //var comment_id='cc'
-        var myReactions = JSON.parse(x).data
+        var myReactions = JSON.parse(x).data;
         for (let r = myReactions.length - 1; r >= 0; --r) {
             const user_id = myReactions[r].id;
             const user_name = myReactions[r].name;
@@ -72,7 +72,7 @@ app.post('/facebook', function(req, res) {
     };
                 //COMMENTS
     var ProcessComments = function (x, post_id) {
-        var myComments = JSON.parse(x).data
+        var myComments = JSON.parse(x).data;
         for (let c = myComments.length - 1; c >= 0; --c) {
             const comment_id = myComments[c].id;
             //busco comentarios del comment
@@ -91,7 +91,7 @@ app.post('/facebook', function(req, res) {
 
                 //FEED
     var ProcessFeed = function (x) {
-        var myFeed = JSON.parse(x).data
+        var myFeed = JSON.parse(x).data;
         for (let p = myFeed.length - 1; p >= 0; --p) {
             const post_id = myFeed[p].id;
             //busco comentarios del post
@@ -106,8 +106,8 @@ app.post('/facebook', function(req, res) {
     };
     if (received_reactions.length > 0) {
         received_reactions.splice(0,received_reactions.length)
-    }
-                facebookAccess.getInfo('/' + group_id + '/feed', access_token, ProcessFeed);
+    };
+    facebookAccess.getInfo('/' + group_id + '/feed', access_token, ProcessFeed);
 
                 ////REACTIONS
                 //var f = function (x) { console.log(x) };
