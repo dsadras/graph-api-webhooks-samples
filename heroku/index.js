@@ -24,16 +24,16 @@ app.get('/log_full', function(req, res) {
   res.send('<pre>' + JSON.stringify(received_logfull, null, 2) + '</pre>');
 });
 
-//app.get(['/facebook', '/instagram'], function(req, res) {
-//  if (
-//    req.query['hub.mode'] == 'subscribe' &&
-//    req.query['hub.verify_token'] == token
-//  ) {
-//    res.send(req.query['hub.challenge']);
-//  } else {
-//    res.sendStatus(400);
-//  }
-//});
+app.get(['/facebook', '/instagram'], function(req, res) {
+  if (
+    req.query['hub.mode'] == 'subscribe' &&
+    req.query['hub.verify_token'] == token
+  ) {
+    res.send(req.query['hub.challenge']);
+  } else {
+    res.sendStatus(400);
+  }
+});
 
 app.post('/facebook', function(req, res) {
 
